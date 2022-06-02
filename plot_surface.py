@@ -5,6 +5,7 @@
 """
 import argparse
 import copy
+from re import I
 import h5py
 import torch
 import time
@@ -59,11 +60,12 @@ def setup_surface_file(args, surf_file, dir_file):
     f['dir_file'] = dir_file
 
     # Create the coordinates(resolutions) at which the function is evaluated
-    xcoordinates = np.linspace(args.xmin, args.xmax, num=args.xnum)
+    import ipdb; ipdb.set_trace()
+    xcoordinates = np.linspace(int(args.xmin), int(args.xmax), num=int(args.xnum))
     f['xcoordinates'] = xcoordinates
 
     if args.y:
-        ycoordinates = np.linspace(args.ymin, args.ymax, num=args.ynum)
+        ycoordinates = np.linspace(int(args.ymin), int(args.ymax), num=int(args.ynum))
         f['ycoordinates'] = ycoordinates
     f.close()
 
@@ -165,8 +167,8 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', default=128, type=int, help='minibatch size')
 
     # data parameters
-    parser.add_argument('--dataset', default='cifar10', help='cifar10 | imagenet')
-    parser.add_argument('--datapath', default='cifar10/data', metavar='DIR', help='path to the dataset')
+    parser.add_argument('--dataset', default='cifar100', help='cifar10 | imagenet')
+    parser.add_argument('--datapath', default='cifar100/data', metavar='DIR', help='path to the dataset')
     parser.add_argument('--raw_data', action='store_true', default=False, help='no data preprocessing')
     parser.add_argument('--data_split', default=1, type=int, help='the number of splits for the dataloader')
     parser.add_argument('--split_idx', default=0, type=int, help='the index of data splits for the dataloader')
@@ -273,8 +275,8 @@ if __name__ == '__main__':
     # Setup dataloader
     #--------------------------------------------------------------------------
     # download CIFAR10 if it does not exit
-    if rank == 0 and args.dataset == 'cifar10':
-        torchvision.datasets.CIFAR10(root=args.dataset + '/data', train=True, download=True)
+    if rank == 0 and args.dataset == 'cifar100':
+        torchvision.datasets.CIFAR100(root=args.dataset + '/data', train=True, download=True)
 
     mpi.barrier(comm)
 
