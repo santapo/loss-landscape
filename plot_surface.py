@@ -60,7 +60,6 @@ def setup_surface_file(args, surf_file, dir_file):
     f['dir_file'] = dir_file
 
     # Create the coordinates(resolutions) at which the function is evaluated
-    import ipdb; ipdb.set_trace()
     xcoordinates = np.linspace(int(args.xmin), int(args.xmax), num=int(args.xnum))
     f['xcoordinates'] = xcoordinates
 
